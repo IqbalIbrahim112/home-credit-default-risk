@@ -1,66 +1,62 @@
-# 🏦 Home Credit Default Risk: Advanced Credit Scoring Analytics
-> **Predicting Creditworthiness to Enhance Financial Inclusion and Risk Management**
+# 🏦 Home Credit Default Risk: Predictive Credit Scoring Model
+> **Empowering Financial Inclusion through Advanced Machine Learning Analytics**
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![Random Forest](https://img.shields.io/badge/Model-Random%20Forest-green?style=for-the-badge)
-![Kaggle](https://img.shields.io/badge/Dataset-Kaggle-blue?style=for-the-badge&logo=kaggle)
+![XGBoost](https://img.shields.io/badge/Model-XGBoost-1572B6?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Complete-success?style=for-the-badge)
 
-## 📌 Executive Summary
-Proyek ini berfokus pada pengembangan model *machine learning* untuk memprediksi risiko gagal bayar (*default*) pada pemohon pinjaman di **Home Credit**. Tantangan utama dalam industri kredit adalah memastikan nasabah yang mampu membayar tidak ditolak, sementara risiko dari nasabah yang berpotensi gagal bayar dapat dimitigasi.
-
-Melalui pendekatan berbasis data, proyek ini mengolah ribuan baris data aplikasi untuk menghasilkan skor kredit yang objektif, transparan, dan dapat dipertanggungjawabkan.
+## 📌 Business Overview
+Proyek ini bertujuan untuk mengatasi tantangan inklusi keuangan dengan membangun model prediksi risiko gagal bayar (*default*) bagi pemohon pinjaman. Menggunakan dataset dari Home Credit, analisis ini mengidentifikasi pola perilaku nasabah untuk membedakan antara nasabah yang mampu membayar tepat waktu (**TARGET 0**) dan nasabah yang memiliki kesulitan pembayaran (**TARGET 1**).
 
 ---
 
-## 🛠️ Machine Learning Pipeline
-Alur kerja pengembangan model mencakup tahapan *end-to-end* sebagai berikut:
-
-1.  **Exploratory Data Analysis (EDA):** Identifikasi pola perilaku nasabah, distribusi target, dan analisis korelasi fitur.
-2.  **Data Preprocessing:**
-    * Handling missing values & outliers.
-    * Feature Engineering (pembuatan rasio keuangan seperti `CREDIT_TERM` & `ANNUITY_INCOME_PERCENT`).
-    * Categorical Encoding & Feature Scaling.
-3.  **Modeling & Optimization:** Eksperimen menggunakan *Baseline Model* (Logistic Regression) hingga *Ensemble Method* (Random Forest).
-4.  **Evaluation:** Menggunakan metrik **ROC-AUC** untuk mengukur kemampuan model dalam membedakan kelas nasabah.
+## 📊 Dataset Insights
+Berdasarkan eksplorasi data terhadap **307.511 catatan aplikasi**:
+* **Imbalance Ratio**: Terdapat ketidakseimbangan kelas yang signifikan, di mana hanya **8,07%** pemohon yang tergolong berisiko tinggi (gagal bayar).
+* **Key Risk Drivers**: 
+    * **External Sources**: Variabel `EXT_SOURCE_1`, `2`, dan `3` merupakan indikator terkuat dengan korelasi negatif yang tinggi terhadap risiko gagal bayar.
+    * **Demografi & Stabilitas**: Nasabah berusia muda (`DAYS_BIRTH`) dan mereka yang sering mengganti telepon (`DAYS_LAST_PHONE_CHANGE`) cenderung memiliki profil risiko yang lebih tinggi secara statistik.
 
 ---
 
-## 📊 Model Performance & Comparison
-Model dievaluasi secara ketat untuk memastikan stabilitas prediksi.
+## 🛠️ Data Science Pipeline
+Alur kerja pengembangan model dirancang untuk memastikan kualitas data dan performa model yang stabil:
 
-| Model Algorithm | Training ROC-AUC | Validation/Test ROC-AUC | Status |
+1.  **Anomaly Handling**: Mengatasi nilai tidak wajar pada fitur `DAYS_EMPLOYED` (anomali 365.243 hari) dengan teknik *flagging* dan penggantian nilai.
+2.  **Advanced Preprocessing**:
+    * **Winsorization**: Penanganan *outliers* menggunakan batas IQR untuk menstabilkan distribusi fitur numerik.
+    * **Strategic Imputation**: Pengisian *missing values* menggunakan strategi *mean imputation*.
+    * **Encoding**: Transformasi variabel kategorikal melalui *Label Encoding* dan pemetaan biner.
+3.  **Class Imbalance Strategy**: 
+    * Implementasi **SMOTE** (*Synthetic Minority Over-sampling Technique*) untuk model Logistic Regression.
+    * Optimasi parameter `scale_pos_weight` pada model XGBoost.
+
+---
+
+## 📈 Model Performance & Comparison
+Evaluasi dilakukan menggunakan **Stratified K-Fold Cross Validation (5-Splits)** dengan metrik utama **AUC-ROC**:
+
+| Model Algorithm | Mean Accuracy | Mean Log Loss | Mean AUC-ROC |
 | :--- | :---: | :---: | :---: |
-| **Logistic Regression** | 0.614 | 0.601 | Stable (Baseline) |
-| **Random Forest Classifier** | **1.000** | **0.709** | **Best Performer** |
+| **Logistic Regression (SMOTE)** | 0.6890 | 0.5924 | 0.7343 |
+| **XGBoost Classifier** | **0.7419** | **0.5159** | **0.7366** |
 
-> *Note: Model Random Forest menunjukkan performa yang sangat kuat dalam menangkap pola kompleks pada data training, dengan skor validasi yang kompetitif di angka 0.709.*
-
----
-
-## 🔑 Key Features Importance
-Berdasarkan analisis model, berikut adalah 5 fitur teratas yang paling krusial dalam menentukan kelayakan kredit nasabah:
-
-1.  **EXT_SOURCE (2 & 3):** Skor normalisasi dari sumber data eksternal (indikator terkuat).
-2.  **DAYS_BIRTH:** Usia nasabah (nasabah lebih muda cenderung memiliki risiko lebih tinggi).
-3.  **DAYS_EMPLOYED:** Durasi masa kerja yang menunjukkan stabilitas finansial.
-4.  **CREDIT_TERM:** Rasio antara jumlah pinjaman dengan durasi pembayaran.
-5.  **ANNUITY_INCOME_PERCENT:** Beban cicilan dibandingkan dengan total pendapatan nasabah.
+> **Analisis**: Model **XGBoost** memberikan performa terbaik dengan tingkat akurasi yang lebih tinggi dan Log Loss yang lebih rendah dibandingkan model baseline.
 
 ---
 
-## 💡 Business Insights & Recommendations
-Berdasarkan hasil pemodelan, strategi bisnis yang direkomendasikan adalah:
-
-* **Segmentasi Usia:** Melakukan validasi tambahan atau persyaratan jaminan yang lebih ketat bagi segmen nasabah muda karena probabilitas gagal bayar yang lebih tinggi secara statistik.
-* **Threshold Debt-to-Income:** Menetapkan batas maksimal rasio pinjaman terhadap pendapatan untuk mencegah *over-leveraging* pada nasabah.
-* **Optimasi Data Eksternal:** Meningkatkan integrasi dengan penyedia data pihak ketiga (External Sources) karena terbukti memiliki korelasi tertinggi terhadap akurasi prediksi.
+## 💡 Key Business Recommendations
+* **Prioritas Validasi Data**: Fokuskan verifikasi mendalam pada pemohon dengan skor *External Source* yang rendah, karena fitur ini memiliki daya prediksi terkuat.
+* **Segmentasi Risiko**: Perketat syarat jaminan atau durasi tenor bagi segmen nasabah muda yang secara statistik menunjukkan probabilitas *default* lebih tinggi.
+* **Efisiensi Operasional**: Model XGBoost dapat diintegrasikan sebagai sistem skor kredit otomatis untuk mempercepat proses persetujuan pinjaman tanpa meningkatkan paparan risiko.
 
 ---
 
-## 📂 Repository Structure
-```bash
-.
-├── home-credit-analysis.ipynb   # Main Jupyter Notebook
-├── README.md                    # Project Documentation
-└── [data]                       # Dataset source (link provided)
+## 📫 Contact
+**Iqbal Tri Wicaksono**
+* **GitHub**: [IqbalIbrahim112](https://github.com/IqbalIbrahim112)
+* **Email**: iqbaltriwicaksono112@gmail.com
+
+---
+*Generated based on Home Credit Score Card Model Analysis.*
