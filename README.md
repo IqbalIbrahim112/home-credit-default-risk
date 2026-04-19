@@ -74,8 +74,8 @@ Model mengidentifikasi 5 faktor utama yang paling memengaruhi keputusan kredit:
 ---
 
 ## 📫 Contact
-**Iqbal Tri Wicaksono Ibrahim**
-* **LinkedIn**: [Iqbal Tri Wicaksono](https://linkedin.com/in/iqbaltriwicaksono)
+**Iqbal Triwicaksono Ibrahim**
+* **LinkedIn**: [Iqbal Triwicaksono Ibrahim](https://linkedin.com/in/iqbaltriwicaksono)
 * **GitHub**: [IqbalIbrahim112](https://github.com/IqbalIbrahim112)
 * **Email**: iqbaltriwicaksono112@gmail.com
 
